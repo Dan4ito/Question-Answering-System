@@ -26,7 +26,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bert_config.json" />
-    <Content Include="Input_file.txt" />
+    <Content Include="Input_file_bg.txt" />
+    <Content Include="Input_file_en.txt" />
     <Content Include="pytorch_model.bin" />
     <Content Include=".gitignore" />
     <Content Include="Training_Script" />

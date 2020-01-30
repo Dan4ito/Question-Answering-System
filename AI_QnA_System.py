@@ -503,17 +503,19 @@ RawResult = collections.namedtuple("RawResult",
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--paragraph", default="./Input_file.txt", type=str)
+    parser.add_argument("--paragraph", default="./Input_file_bg.txt", type=str)
     parser.add_argument("--model", default="./pytorch_model.bin", type=str)
     parser.add_argument("--max_seq_length", default=384, type=int)
     parser.add_argument("--doc_stride", default=128, type=int)
     parser.add_argument("--max_query_length", default=64, type=int)
     parser.add_argument("--config_file", default="./bert_config.json", type=str)
     parser.add_argument("--max_answer_length", default=30, type=int)
+    parser.add_argument("--input_language", default="bg", type=str)
     
     args = parser.parse_args()
     para_file = args.paragraph
     model_path = args.model
+    input_language = args.input_language;
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     n_gpu = torch.cuda.device_count()
@@ -524,6 +526,11 @@ def main():
     f = open(para_file, encoding='utf-8-sig')
     initial_text = f.read()
     f.close()
+
+    chosen_language_label = "Chosen language: "
+    enter_question_inputLanguage_translator = translator.translate(chosen_language_label, dest=input_language)
+    print("\n\n" + enter_question_inputLanguage_translator.text + " " + input_language + "\n\n")
+
 
     initial_text_en_translatorObj = translator.translate(initial_text, dest='en')
     initial_text_en = initial_text_en_translatorObj.text
@@ -540,7 +547,9 @@ def main():
         paragraphs['ques']= []
         print('\n')
 
-        input_question = input("Въведи въпрос относно текста: ")
+        enter_question_label = "Enter question for the text: "
+        enter_question_inputLanguage_translator = translator.translate(enter_question_label, dest=input_language)
+        input_question = input(enter_question_inputLanguage_translator.text + " ")
         input_question_en_translator = translator.translate(input_question, dest='en')
         input_question_en = input_question_en_translator.text
 
@@ -622,9 +631,9 @@ def main():
 
 
             prediction = predictions[math.floor(example.unique_id/12)][example].strip()
-            prediction_bg_translator = translator.translate(prediction, dest='bg')
-            prediction_bg = prediction_bg_translator.text
-            print(colored(prediction_bg, 'green'))
+            prediction_inputLanguage_translator = translator.translate(prediction, dest=input_language)
+            prediction_inputLanguage = prediction_inputLanguage_translator.text
+            print(colored(prediction_inputLanguage, 'green'))
 
    
 

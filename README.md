@@ -29,6 +29,6 @@ It will be run with default parameters:
 
 You can set the application to use a file containing another language text (e.g bulgarian using ```--paragraph ./Input_file_bg.txt``` flag) and configure it to work that language (e.g bulgarian using ```--input_language bg``` flag)
 
-<b>Just make sure THERE IS one-to-one mapping to the source file language and the language the application is configured to work with</b>
+<b>Just make sure THERE IS one-to-one mapping to the input file language and the language the application is configured to work with.</b>
 
 

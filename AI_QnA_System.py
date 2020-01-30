@@ -517,29 +517,34 @@ def main():
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     n_gpu = torch.cuda.device_count()
-    
-    ### Raeding paragraph
-    f = open(para_file, encoding='utf-8-sig')
 
+    translator = Translator()
+    
+    ### Reading paragraph
+    f = open(para_file, encoding='utf-8-sig')
     initial_text = f.read()
     f.close()
+
+    initial_text_en_translatorObj = translator.translate(initial_text, dest='en')
+    initial_text_en = initial_text_en_translatorObj.text
     print(initial_text)
     
-    ## Reading question
-#     f = open(ques_file, 'r')
-#     ques = f.read()
-#     f.close()
-    
+
     while True:
     
         input_data = []
 
         paragraphs = {}
         paragraphs['id'] = 1
-        paragraphs['text'] = initial_text
+        paragraphs['text'] = initial_text_en
         paragraphs['ques']= []
         print('\n')
-        paragraphs['ques'].append(input("Enter your question: "))
+
+        input_question = input("Въведи въпрос относно текста: ")
+        input_question_en_translator = translator.translate(input_question, dest='en')
+        input_question_en = input_question_en_translator.text
+
+        paragraphs['ques'].append(input_question_en)
         input_data.append(paragraphs)
        
     
@@ -610,15 +615,16 @@ def main():
         for example in examples:
             if index!= example.example_id:
                 index = example.example_id
-                #print('\n')
-                #print(colored('***********Question and Answers *************', 'red'))
           
-            ques_text = colored(example.question_text.strip(), 'red')
+
+            ques_text = colored(input_question.strip(), 'red')
             print(ques_text)
 
 
             prediction = predictions[math.floor(example.unique_id/12)][example].strip()
-            print(colored(prediction, 'green'))
+            prediction_bg_translator = translator.translate(prediction, dest='bg')
+            prediction_bg = prediction_bg_translator.text
+            print(colored(prediction_bg, 'green'))
 
    
 

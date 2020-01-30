@@ -13,6 +13,8 @@ from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
 from tqdm import tqdm
 from termcolor import colored, cprint
 
+from googletrans import Translator
+
 
 class SquadExample(object):
     """
@@ -501,12 +503,12 @@ RawResult = collections.namedtuple("RawResult",
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--paragraph", default=None, type=str)
-    parser.add_argument("--model", default=None, type=str)
+    parser.add_argument("--paragraph", default="./Input_file.txt", type=str)
+    parser.add_argument("--model", default="./pytorch_model.bin", type=str)
     parser.add_argument("--max_seq_length", default=384, type=int)
     parser.add_argument("--doc_stride", default=128, type=int)
     parser.add_argument("--max_query_length", default=64, type=int)
-    parser.add_argument("--config_file", default=None, type=str)
+    parser.add_argument("--config_file", default="./bert_config.json", type=str)
     parser.add_argument("--max_answer_length", default=30, type=int)
     
     args = parser.parse_args()
@@ -517,8 +519,12 @@ def main():
     n_gpu = torch.cuda.device_count()
     
     ### Raeding paragraph
-    f = open(para_file, 'r')
-    para = f.read()
+    f = open(para_file, encoding='utf-8')
+
+    para_bg = f.read()
+    translator = Translator()
+    para = translator.translate(para_bg, dest='en')
+    para = para.text
     f.close()
     
     ## Reading question
@@ -612,9 +618,11 @@ def main():
             print(colored('***********Question and Answers *************', 'red'))
           
         ques_text = colored(example.question_text, 'blue')
-        print(ques_text)
+        question_translator = translator.translate(ques_text, dest='bg')
+        print(question_translator.text)
         prediction = colored(predictions[math.floor(example.unique_id/12)][example], 'green', attrs=['reverse', 'blink'])
-        print(prediction)
+        answer_translator = translator.translate(prediction, dest='bg')
+        print(answer_translator.text)
         print('\n')
 
    

@@ -23,19 +23,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI_QnA_System.py" />
-    <Compile Include="Code\Test_Batch.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Code\" />
-    <Folder Include="Results\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Code\Run_test.ipynb" />
+    <Content Include="bert_config.json" />
     <Content Include="Input_file.txt" />
     <Content Include="pytorch_model.bin" />
-    <Content Include="Results\bert_config.json" />
-    <Content Include="Results\nbest_predictions.json" />
-    <Content Include="Results\predictions.json" />
+    <Content Include=".gitignore" />
     <Content Include="Training_Script" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

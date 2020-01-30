@@ -521,10 +521,7 @@ def main():
     ### Raeding paragraph
     f = open(para_file, encoding='utf-8')
 
-    para_bg = f.read()
-    translator = Translator()
-    para = translator.translate(para_bg, dest='en')
-    para = para.text
+    para = f.read()
     f.close()
     
     ## Reading question
@@ -618,11 +615,11 @@ def main():
             print(colored('***********Question and Answers *************', 'red'))
           
         ques_text = colored(example.question_text, 'blue')
-        question_translator = translator.translate(ques_text, dest='bg')
-        print(question_translator.text)
+
+        print(ques_text)
         prediction = colored(predictions[math.floor(example.unique_id/12)][example], 'green', attrs=['reverse', 'blink'])
-        answer_translator = translator.translate(prediction, dest='bg')
-        print(answer_translator.text)
+
+        print(prediction)
         print('\n')
 
    

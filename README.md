@@ -10,6 +10,7 @@
 
 ### Running AI_QnA_System.py directly (no command line arguments)
 It will be run with default parameters:
+```typescript
     ("--paragraph", default="./Input_file_bg.txt", type=str)
     ("--model", default="./pytorch_model.bin", type=str)
     ("--max_seq_length", default=384, type=int)
@@ -18,9 +19,11 @@ It will be run with default parameters:
     ("--config_file", default="./bert_config.json", type=str)
     ("--max_answer_length", default=30, type=int)
     ("--input_language", default="bg", type=str)
+```
+    
     
 ### Running AI_QnA_System.py (with command line arguments through command line)
 1. Navigate to the folder
-2. Execute - python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./Results/bert_config.json --input_language e
+2. Execute - ```typescript python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./Results/bert_config.json --input_language en ```
 
 

@@ -4,7 +4,7 @@
 
 1. Clone the repo
 2. Download and paste Bert-on-Squad-V2.0 model into the directory - https://drive.google.com/file/d/1hktnjAJOdOwPxTK3R-KST9-kUQFYPusM/view?usp=sharing
-3. Install the following dependencies - pip install pytorch-pretrained-bert, pip install googletrans, pip install termcolor
+3. Install the following dependencies - ```pip install pytorch-pretrained-bert```, ```pip install googletrans```, ```pip install termcolor```
 
 ## Running the application
 

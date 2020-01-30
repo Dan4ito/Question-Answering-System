@@ -24,7 +24,6 @@ It will be run with default parameters:
     
 ### Running AI_QnA_System.py (with command line arguments through command line)
 1. Navigate to the folder
-2. Execute the following command: 
-```typescript python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./Results/bert_config.json --input_language en ```
+2. Execute the following command - ``` python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./Results/bert_config.json --input_language en ```
 
 

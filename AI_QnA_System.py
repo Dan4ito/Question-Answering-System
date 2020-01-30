@@ -519,7 +519,7 @@ def main():
     n_gpu = torch.cuda.device_count()
     
     ### Raeding paragraph
-    f = open(para_file, encoding='utf-8')
+    f = open(para_file, encoding='utf-8-sig')
 
     initial_text = f.read()
     f.close()
@@ -537,7 +537,9 @@ def main():
         paragraphs = {}
         paragraphs['id'] = 1
         paragraphs['text'] = initial_text
-        paragraphs['ques']= input("Enter your question: ")
+        paragraphs['ques']= []
+        print('\n')
+        paragraphs['ques'].append(input("Enter your question: "))
         input_data.append(paragraphs)
        
     
@@ -607,18 +609,16 @@ def main():
         index = None
         for example in examples:
             if index!= example.example_id:
-                #print(example.para_text)
                 index = example.example_id
-                print('\n')
-                print(colored('***********Question and Answers *************', 'red'))
+                #print('\n')
+                #print(colored('***********Question and Answers *************', 'red'))
           
-            ques_text = colored(example.question_text, 'blue')
-
+            ques_text = colored(example.question_text.strip(), 'red')
             print(ques_text)
-            prediction = colored(predictions[math.floor(example.unique_id/12)][example], 'green', attrs=['reverse', 'blink'])
 
-            print(prediction)
-            print('\n')
+
+            prediction = predictions[math.floor(example.unique_id/12)][example].strip()
+            print(colored(prediction, 'green'))
 
    
 

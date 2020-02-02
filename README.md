@@ -27,7 +27,7 @@ It will be run with default parameters:
     
 ### Running AI_QnA_System.py (with command line arguments through command line)
 1. Navigate to the folder
-2. Execute the following command - ``` python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./Results/bert_config.json --input_language en ```
+2. Execute the following command - ``` python AI_QnA_System.py --paragraph ./Input_file_en.txt --model ./pytorch_model.bin --config_file ./config/bert_config.json --input_language en ```
 (This will run the application configured to get a file containing english text (Input_file_en.txt), enter questions in english for the english text)
 
 You can set the application to use a file containing another language text (e.g bulgarian using ```--paragraph ./Input_file_bg.txt``` flag) and configure it to work that language (e.g bulgarian using ```--input_language bg``` flag)

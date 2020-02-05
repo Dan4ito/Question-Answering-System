@@ -3,7 +3,7 @@
 ## How to setup
 
 1. Clone the repo
-2. Download and paste Bert-on-Squad-V2.0 model into the directory - https://drive.google.com/file/d/1hktnjAJOdOwPxTK3R-KST9-kUQFYPusM/view?usp=sharing
+2. Download and paste Bert-on-Squad-V2.0 model into the directory - https://drive.google.com/file/d/1pLnkxWtz9bP5WDuSCiZwgJ1P7AMq0mJ4/view?usp=sharing
 3. Install the dependencies specified in requirements.txt. Follow the steps:
     -   Create virtual enviroment ```python -m venv venv```
     -   Install all the requirements inside ```pip install -r requirements.txt```

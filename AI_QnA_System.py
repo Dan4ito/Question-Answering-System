@@ -260,6 +260,9 @@ def _get_best_indexes(logits, n_best_size):
 def get_final_text(pred_text, orig_text, do_lower_case, verbose_logging=False):
     """Project the tokenized prediction back to the original text."""
 
+    print(f'ORIGINAL TEXT: {orig_text}')
+    print(f'PREDICTED TEXT: {pred_text}')
+
     def _strip_spaces(text):
         ns_chars = []
         ns_to_s_map = collections.OrderedDict()
@@ -332,26 +335,14 @@ _PrelimPrediction = collections.namedtuple(  # pylint: disable=invalid-name
 
 
 def _compute_softmax(scores):
-    """Compute softmax probability over raw logits."""
-    if not scores:
-        return []
-
-    max_score = None
-    for score in scores:
-        if max_score is None or score > max_score:
-            max_score = score
-
-    exp_scores = []
-    total_sum = 0.0
-    for score in scores:
-        x = math.exp(score - max_score)
-        exp_scores.append(x)
-        total_sum += x
-
-    probs = []
-    for score in exp_scores:
-        probs.append(score / total_sum)
-    return probs
+    """
+        Compute softmax values.
+        In this way we turn raw logits(from - inf to +inf) to probabilities
+        We use the substracting of the maximum to make the numbers smaller.
+        If we substract the same number from score -> the probabilities will remain the same.
+    """
+    max_score = np.max(scores)
+    return np.exp(scores - max_score) / np.sum(np.exp(scores - max_score))
 
 
 _NbestPrediction = collections.namedtuple(  # pylint: disable=invalid-name
@@ -561,6 +552,7 @@ def main():
 
     
         examples = read_squad_examples(input_data)
+        print(f'EXAMPLES: {examples[0].doc_tokens}')
         tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
     
     
@@ -570,6 +562,8 @@ def main():
                 max_seq_length=args.max_seq_length,
                 doc_stride=args.doc_stride,
                 max_query_length=args.max_query_length)
+        
+        print(f'FEATURES: {eval_features}')
     
     
     

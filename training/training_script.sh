@@ -1,0 +1,18 @@
+python run_squad.py `
+  --model_type bert `
+  --model_name_or_path bert-base-uncased `
+  --do_eval `
+  --do_train `
+  --do_lower_case `
+  --predict_file Squad/dev-v2.0.json `
+  --train_file Squad/train-v2.0.json `
+  --learning_rate 3e-5 `
+  --num_train_epochs 2.0 `
+  --per_gpu_train_batch_size 2 `
+  --per_gpu_eval_batch_size 2 `
+  --save_steps 1000 `
+  --max_seq_length 384 `
+  --doc_stride 128 `
+  --output_dir ../model/Squad_2.0/ `
+  --overwrite_output_dir `
+  --version_2_with_negative `

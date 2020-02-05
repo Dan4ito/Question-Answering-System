@@ -1,1 +1,1 @@
-python Squad/evaluate-v2.0.py Squad/dev-v2.0.json ../model/Squad_2.0/predictions_.json
+python Squad/evaluate-v2.0.py Squad/dev-v2.0.json ../model/predictions_.json

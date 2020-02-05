@@ -13,6 +13,6 @@ python run_squad.py `
   --save_steps 1000 `
   --max_seq_length 384 `
   --doc_stride 128 `
-  --output_dir ../model/Squad_2.0/ `
+  --output_dir ../model/ `
   --overwrite_output_dir `
   --version_2_with_negative `

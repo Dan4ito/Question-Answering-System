@@ -55,9 +55,8 @@ class SquadExample(object):
 def read_squad_examples(input_data):
     """Read a SQuAD json file into a list of SquadExample."""
     def is_whitespace(c):
-        if c == " " or c == "\t" or c == "\r" or c == "\n" or ord(c) == 0x202F:
-            return True
-        return False
+        return c in {" ", "\t", "\r", "\n"} or ord(c) == 0x202F
+
     i = 0
     examples = []
     for entry in input_data:
@@ -259,9 +258,6 @@ def _get_best_indexes(logits, n_best_size):
 
 def get_final_text(pred_text, orig_text, do_lower_case, verbose_logging=False):
     """Project the tokenized prediction back to the original text."""
-
-    print(f'ORIGINAL TEXT: {orig_text}')
-    print(f'PREDICTED TEXT: {pred_text}')
 
     def _strip_spaces(text):
         ns_chars = []
@@ -490,6 +486,13 @@ RawResult = collections.namedtuple("RawResult",
                                    ["unique_id", "start_logits", "end_logits"])
 
 
+class TranslatorWrapper:
+    def __init__(self):
+        self.translator = Translator()
+
+    def translate(self, text, dest_lang):
+        translation = self.translator.translate(text, dest=dest_lang)
+        return translation.text
 
 
 def main():
@@ -511,22 +514,18 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     n_gpu = torch.cuda.device_count()
 
-    translator = Translator()
+    translator = TranslatorWrapper()
     
     ### Reading paragraph
     f = open(para_file, encoding='utf-8-sig')
     initial_text = f.read()
     f.close()
 
-    chosen_language_label = "Chosen language: "
-    enter_question_inputLanguage_translator = translator.translate(chosen_language_label, dest=input_language)
-    print("\n\n" + enter_question_inputLanguage_translator.text + " " + input_language + "\n\n")
+    language_label_translated = translator.translate("Chosen language: ", input_language)
+    print(f"\n\n{language_label_translated} {input_language}\n\n")
 
-
-    initial_text_en_translatorObj = translator.translate(initial_text, dest='en')
-    initial_text_en = initial_text_en_translatorObj.text
+    initial_text_en = translator.translate(initial_text, 'en')
     print(initial_text)
-    
 
     while True:
     
@@ -538,21 +537,16 @@ def main():
         paragraphs['ques']= []
         print('\n')
 
-        enter_question_label = "Enter question for the text: "
-        enter_question_inputLanguage_translator = translator.translate(enter_question_label, dest=input_language)
-        input_question = input(enter_question_inputLanguage_translator.text + " ")
-        input_question_en_translator = translator.translate(input_question, dest='en')
-        input_question_en = input_question_en_translator.text
+        enter_question_label_translated = translator.translate("Enter question for the text: ", input_language)
+        input_question = input(enter_question_label_translated + " ")
+        input_question_en = translator.translate(input_question, "en")
 
         paragraphs['ques'].append(input_question_en)
         input_data.append(paragraphs)
        
     
         ## input_data is a list of dictionary which has a paragraph and questions
-
-    
         examples = read_squad_examples(input_data)
-        print(f'EXAMPLES: {examples[0].doc_tokens}')
         tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
     
     
@@ -562,10 +556,6 @@ def main():
                 max_seq_length=args.max_seq_length,
                 doc_stride=args.doc_stride,
                 max_query_length=args.max_query_length)
-        
-        print(f'FEATURES: {eval_features}')
-    
-    
     
         all_input_ids = torch.tensor([f.input_ids for f in eval_features], dtype=torch.long)
         all_input_mask = torch.tensor([f.input_mask for f in eval_features], dtype=torch.long)
@@ -625,11 +615,9 @@ def main():
 
 
             prediction = predictions[math.floor(example.unique_id/12)][example].strip()
-            prediction_inputLanguage_translator = translator.translate(prediction, dest=input_language)
-            prediction_inputLanguage = prediction_inputLanguage_translator.text
-            print(colored(prediction_inputLanguage, 'green'))
+            prediction_translated = translator.translate(prediction, input_language)
+            print(colored(prediction_translated, 'green'))
 
-   
 
 if __name__ == "__main__":
     main()
